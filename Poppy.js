@@ -1,12 +1,14 @@
-function Poppy(continent, start, end, size)
+function Poppy(stage, mainContainer, continent, start, end, death)
 {
-	
+	var stage = stage;
+	var mainContainer = mainContainer;
 	var continent = continent;
 	var start = start;
 	var end = end;
-	var size = size;
+	var death = death;
+	var poppySize
 
-	//console.log("++++" + size);
+	//console.log("++++" + death);
 
 	var xstart = 10;
 	var xend = 1500;
@@ -43,8 +45,8 @@ function Poppy(continent, start, end, size)
 	function init()
 	{
 		lasted = end - start;
-
-		size = Math.round(map(size, smallestDeath, biggestDeath, minScale, maxScale));
+// LOOK HERE
+		poppySize = Math.round(map(death, smallestDeath, biggestDeath, minScale, maxScale));
 
 		startxVal = Math.round(map(start, 1890, 2015, xstart, xend));
 		endxVal = Math.round(map(end, 1890, 2015, xstart, xend));
@@ -60,47 +62,49 @@ function Poppy(continent, start, end, size)
 
 		midy = endyVal - startyVal;
 		littlemidy = Math.round(midy /2);
-
-		poppyPosition = new Point(endxVal - size/2, endyVal - size/2);
+// LOOK HERE
+		poppyPosition = new Point(endxVal - poppySize/2, endyVal - poppySize/2);
 
 		poppyImage = ImageUrls.getUrlByContinent(continent);
 
-		curve = new Curve(ctx, 
-			new Point(startxVal,ystart), 
-			new Point(endxVal,endyVal),
-			new Point(startxVal+littlemidx,ystart+littlemidy), 
-			new Point(endxVal-littlemidx,endyVal-littlemidy), 
-			Colours.getContinent(continent));
+		// curve = new Curve(ctx, 
+		// 	new Point(startxVal,ystart), 
+		// 	new Point(endxVal,endyVal),
+		// 	new Point(startxVal+littlemidx,ystart+littlemidy), 
+		// 	new Point(endxVal-littlemidx,endyVal-littlemidy), 
+		// 	Colours.getContinent(continent));
 
-		poppy = getImage(poppyImage) ;
+		poppy = getImage(poppyImage);
+		mainContainer.addChild(poppy);
+		poppy.addEventListener("mouseover", poppyMouseOver);
 
+	}
+
+	function poppyMouseOver(evt) 
+	{
+    	//alert("type: "+evt.type+" target: "+evt.target+" stageX: "+evt.stageX);
+    	alert("country = "+continent + ", death = " +death);
 	}
 
 	function getImage(url)
 	{
-		var img = new Image();
-		img.onload = function(){
-			this.width = size;
-			this.height = size;
-		    drawPoppy(this, poppyPosition, size);
-		    isImageLoaded = true;
-		  }
-		img.src = url;
+		var img = new createjs.Bitmap(url).set({x:poppyPosition.x,y:poppyPosition.y});
+		img.scaleX = img.scaleY = poppySize/15;
+		img.regY = img.image.height/2;
+		img.regX = img.image.width/2;
+		img.image.onload = function() 
+		{  
+			isImageLoaded = true;
+		}
 		return img;
-	}
-
-	function drawPoppy(img, position, size)
-	{
-		ctx.drawImage(img, position.x, position.y, size, size);
 	}
 
 
 	this.update = function()
 	{
-		curve.update();
+		//curve.update();
 		if(isImageLoaded)
 		{
-			drawPoppy(poppy, poppyPosition, size);
 		}
 	}
 
