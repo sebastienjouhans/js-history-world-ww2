@@ -1,4 +1,4 @@
-function Poppy(stage, mainContainer, continent, start, end, death)
+function Poppy(stage, mainContainer, continent, start, end, death, warName)
 {
 	var stage = stage;
 	var mainContainer = mainContainer;
@@ -6,7 +6,8 @@ function Poppy(stage, mainContainer, continent, start, end, death)
 	var start = start;
 	var end = end;
 	var death = death;
-	var poppySize
+	var warName = warName;
+	var poppySize;
 
 	//console.log("++++" + death);
 
@@ -67,15 +68,19 @@ function Poppy(stage, mainContainer, continent, start, end, death)
 
 		poppyImage = ImageUrls.getUrlByContinent(continent);
 
-		// curve = new Curve(ctx, 
-		// 	new Point(startxVal,ystart), 
-		// 	new Point(endxVal,endyVal),
-		// 	new Point(startxVal+littlemidx,ystart+littlemidy), 
-		// 	new Point(endxVal-littlemidx,endyVal-littlemidy), 
-		// 	Colours.getContinent(continent));
+		curve = new Curve(mainContainer, 
+			new Point(startxVal,ystart), 
+			new Point(endxVal,endyVal),
+			new Point(startxVal+littlemidx,ystart+littlemidy), 
+			new Point(endxVal-littlemidx,endyVal-littlemidy), 
+			Colours.getContinent(continent));
 
 		poppy = getImage(poppyImage);
+
+		mainContainer.addChild(curve.getShape());
 		mainContainer.addChild(poppy);
+		
+
 		poppy.addEventListener("mouseover", poppyMouseOver);
 
 	}
@@ -83,7 +88,7 @@ function Poppy(stage, mainContainer, continent, start, end, death)
 	function poppyMouseOver(evt) 
 	{
     	//alert("type: "+evt.type+" target: "+evt.target+" stageX: "+evt.stageX);
-    	alert("country = "+continent + ", death = " +death);
+    	alert("War Name =" + warName + ", country = "+continent + ", death = " +death);
 	}
 
 	function getImage(url)
@@ -102,10 +107,10 @@ function Poppy(stage, mainContainer, continent, start, end, death)
 
 	this.update = function()
 	{
-		//curve.update();
-		if(isImageLoaded)
-		{
-		}
+		curve.update();
+		// if(isImageLoaded)
+		// {
+		// }
 	}
 
 

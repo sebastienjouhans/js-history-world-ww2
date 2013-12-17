@@ -1,10 +1,11 @@
-function Curve(c, s, e, a1, a2, col)
+function Curve(mainContainer, s, e, a1, a2, col)
 {
+  var shape;
+
   var speed = .3;
 
   var colour = col;
 
-  var context = c;
   var start = s;
   var end = e;
   var anchor1 = a1;
@@ -17,18 +18,24 @@ function Curve(c, s, e, a1, a2, col)
 
   function init()
   {
-    
+    shape = new createjs.Shape();
+    var g = shape.graphics;
+    g.setStrokeStyle(1);
+    g.beginStroke(colour);
+    g.moveTo(start.x, start.y); 
+    g.bezierCurveTo(anchor1.x, anchor1.y, anchor2.x, anchor2.y,end.x,end.y);
+  }
+
+  
+  this.getShape = function()
+  {
+    return shape;
   }
 
   this.update = function()
-  {
-    context.beginPath();
-    context.lineWidth = 1;
-    context.strokeStyle = colour;  
-    context.moveTo(start.x, start.y);
-    context.bezierCurveTo(anchor1.x, anchor1.y, anchor2.x, anchor2.y,end.x,end.y);
-    context.stroke();
-    context.closePath();
+  { 
+    shape.graphics.moveTo(start.x, start.y); 
+    shape.graphics.bezierCurveTo(anchor1.x, anchor1.y, anchor2.x, anchor2.y,end.x,end.y);
     
 
     
@@ -101,4 +108,6 @@ function Curve(c, s, e, a1, a2, col)
     var p = new Point(getRandom(xmin, xmax), getRandom(ymin, ymax));
     return p;
   }
+
+  init();
 }

@@ -50,6 +50,7 @@ function createCurves(jsonData)
 		var continent = jsonData[i].Continent.toLowerCase();
 		var start = Number(jsonData[i].Start);
 		var end = Number(jsonData[i].End);
+		var warName = jsonData[i].War;
 		var deaths = Number(jsonData[i].Deaths.replace(/,/g , ""));
 
 		if(continent=="" || start==NaN || end==NaN || deaths==NaN) return;
@@ -60,22 +61,21 @@ function createCurves(jsonData)
 								continent,
 								start,
 								end,
-								deaths) );
+								deaths,
+								warName) );
 	}
 }
 
 
 function render()
 { 
-    // ctx.fillStyle = "#fff9e1";
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
-     var i = poppies.length; 
-     while(--i>0)
-     {
-       poppies[i].update();
-     }
+	var i = poppies.length; 
+	while(--i>0)
+	{
+		poppies[i].update();
+	}
 
-     stage.update();
+	stage.update();
 }
 
 
