@@ -68,8 +68,10 @@ function createCurves(jsonData)
 
 
 function render()
-{ 
-	var i = poppies.length; 
+{
+
+	var i = poppies.length;
+
 	while(--i>0)
 	{
 		poppies[i].update();

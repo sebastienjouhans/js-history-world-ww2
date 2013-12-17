@@ -18,7 +18,7 @@ function Poppy(stage, mainContainer, continent, start, end, death, warName)
 	var smallestDeath = 10000;
 	var biggestDeath = 50800000;
 	var minScale = 10;
-	var maxScale = 400;
+	var maxScale = 300;
 	
 
 	var isImageLoaded = false;
@@ -94,7 +94,7 @@ function Poppy(stage, mainContainer, continent, start, end, death, warName)
 	function getImage(url)
 	{
 		var img = new createjs.Bitmap(url).set({x:poppyPosition.x,y:poppyPosition.y});
-		img.scaleX = img.scaleY = poppySize/15;
+		img.scaleX = img.scaleY = Math.sqrt(death/100000);
 		img.regY = img.image.height/2;
 		img.regX = img.image.width/2;
 		img.image.onload = function() 
